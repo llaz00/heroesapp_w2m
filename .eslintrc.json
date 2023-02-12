@@ -1,0 +1,69 @@
+{
+  "root": true,
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json",
+          "e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/recommended--extra",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "prefix": [
+              "app",
+              "ea"
+            ],
+            "style": "kebab-case",
+            "type": "element"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "prefix": [
+              "app",
+              "ea"
+            ],
+            "style": "camelCase",
+            "type": "attribute"
+          }
+        ],
+        // Disables error when: const a: any; a.method()
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        // Disables error when: const a: any; let b: string; b = a
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        // To fix table validators definition because of internal this:
+        "@typescript-eslint/unbound-method": "off",
+        // Not allowed declaring variables as 'any'
+        "@typescript-eslint/no-explicit-any": "error"
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ],
+  "extends": [
+    "plugin:prettier/recommended"
+  ]
+}
