@@ -32,7 +32,18 @@ export class HeroesService {
     }
 
     getAll(searchFilter?: string): Observable<ApiResponseModel<HeroModel>> {
-        // TODO: Search filter
+        if (searchFilter) {
+            const filteredResults = this.heroesList.filter(
+                hero =>
+                    hero.name.toLowerCase().includes(searchFilter.toLowerCase()) ||
+                    hero.publisher?.toLowerCase().includes(searchFilter.toLowerCase())
+            );
+            return of({
+                data: [...filteredResults],
+                length: filteredResults.length,
+            });
+        }
+
         return of({
             data: [...this.heroesList],
             length: this.heroesList.length,

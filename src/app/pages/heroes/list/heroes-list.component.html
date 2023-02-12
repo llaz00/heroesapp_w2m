@@ -1,7 +1,7 @@
 <h1>Lista de héroes</h1>
 <div class="actions">
     <mat-form-field appearance="outline">
-        <input matInput placeholder="Buscar..." />
+        <input matInput placeholder="Buscar..." [formControl]="searchFilter" />
     </mat-form-field>
     <div class="buttons">
         <button mat-raised-button (click)="create()" color="primary">Añadir</button>

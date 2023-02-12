@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 
 @Component({
     selector: 'app-heroes-list',
@@ -15,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class HeroesListComponent implements OnInit {
     heroesList: ApiResponseModel<HeroModel> = { data: [], length: 0 };
     columns = ['name', 'publisher', 'genre', 'delete'];
+    searchFilter = new FormControl<string>('', { nonNullable: true });
 
     constructor(
         private heroesService: HeroesService,
@@ -25,10 +28,14 @@ export class HeroesListComponent implements OnInit {
 
     ngOnInit(): void {
         this.getAllHeroes();
+
+        this.searchFilter.valueChanges.pipe(debounceTime(500)).subscribe(newValue => {
+            this.getAllHeroes(newValue);
+        });
     }
 
-    getAllHeroes(): void {
-        this.heroesService.getAll().subscribe(heroes => {
+    getAllHeroes(searchFilter?: string): void {
+        this.heroesService.getAll(searchFilter).subscribe(heroes => {
             this.heroesList = heroes;
         });
     }
