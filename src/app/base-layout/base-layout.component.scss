@@ -25,5 +25,9 @@
 
   main {
     padding: 40px 100px;
+
+      @media (max-width: 600px) {
+          padding: 40px 20px;
+      }
   }
 }
