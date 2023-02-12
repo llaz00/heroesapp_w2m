@@ -1,0 +1,18 @@
+:host {
+    .title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+
+        h1 {
+            margin-bottom: 0;
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        gap: 6px;
+    }
+}

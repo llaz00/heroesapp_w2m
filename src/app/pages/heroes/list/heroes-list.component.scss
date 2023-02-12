@@ -1,0 +1,13 @@
+:host {
+  .actions {
+    display: flex;
+    justify-content: space-between;
+  }
+
+    .row {
+        &:hover {
+            background-color: #fafafa;
+            cursor: pointer;
+        }
+    }
+}

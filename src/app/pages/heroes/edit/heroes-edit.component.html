@@ -1,1 +1,28 @@
-<p>heroes-edit works!</p>
+<div class="title">
+    <button mat-icon-button (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+    <h1 *ngIf="!isEditMode">Crear héroe</h1>
+    <h1 *ngIf="isEditMode">Editar héroe</h1>
+</div>
+
+<form class="mat-elevation-z8" [formGroup]="heroForm">
+    <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Género</mat-label>
+        <mat-select formControlName="genre">
+            <mat-option value="male">Masculino</mat-option>
+            <mat-option value="female">Femenino</mat-option>
+            <mat-option value="other">Otro</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Editora</mat-label>
+        <input matInput formControlName="publisher" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="save()">Guardar</button>
+</form>
