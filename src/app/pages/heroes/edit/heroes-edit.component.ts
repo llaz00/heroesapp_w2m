@@ -3,11 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HeroesService } from '../../../services/heroes.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GenreModel } from '../../../models/genre.model';
 
 interface HeroForm {
     id: FormControl<number>;
     name: FormControl<string>;
-    genre: FormControl<'male' | 'female' | 'other' | undefined>;
+    genre: FormControl<GenreModel | undefined>;
     publisher: FormControl<string | undefined>;
 }
 

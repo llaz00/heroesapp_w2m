@@ -1,10 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { GenreModel } from '../../models/genre.model';
 
 @Pipe({
     name: 'genre',
 })
 export class GenrePipe implements PipeTransform {
-    transform(value: 'male' | 'female' | 'other'): string {
+    transform(value: GenreModel): string {
         switch (value) {
             case 'male':
                 return 'Masculino';
