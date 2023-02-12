@@ -25,8 +25,7 @@
           "error",
           {
             "prefix": [
-              "app",
-              "ea"
+              "app"
             ],
             "style": "kebab-case",
             "type": "element"

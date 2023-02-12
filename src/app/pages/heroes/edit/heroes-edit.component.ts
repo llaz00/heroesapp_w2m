@@ -70,10 +70,12 @@ export class HeroesEditComponent implements OnInit {
                     .edit(this.heroForm.controls.id.value, this.heroForm.getRawValue())
                     .subscribe(() => {
                         this.snackbar.open('Editado correctamente');
+                        void this.router.navigateByUrl('/heroes');
                     });
             } else {
                 this.heroesService.create(this.heroForm.getRawValue()).subscribe(newId => {
                     this.snackbar.open('Creado correctamente');
+                    void this.router.navigateByUrl('/heroes');
                 });
             }
         }

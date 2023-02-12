@@ -4,10 +4,11 @@ import { GenrePipe } from './pipes/genre.pipe';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { UppercaseDirective } from './directives/uppercase.directive';
 
 @NgModule({
-    declarations: [ConfirmationDialogComponent, GenrePipe],
+    declarations: [ConfirmationDialogComponent, GenrePipe, UppercaseDirective, UppercaseDirective],
     imports: [CommonModule, MatDialogModule, MatButtonModule],
-    exports: [GenrePipe],
+    exports: [GenrePipe, UppercaseDirective],
 })
 export class SharedModule {}
