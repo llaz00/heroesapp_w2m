@@ -1,5 +1,5 @@
 export interface HeroModel {
-  name: string;
-  publisher: string;
-  genre: 'male' | 'female' | 'other';
+    name: string;
+    publisher: string;
+    genre: 'male' | 'female' | 'other';
 }
