@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,9 +11,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CdkDropList } from '@angular/cdk/drag-drop';
 import { MatListModule } from '@angular/material/list';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { environment } from '../environments/environment';
+import { MockApiInterceptor } from './interceptors/mock-api.interceptor';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+// Adds Mock API interceptor only if environment.mockApi is set to true
+const mockApiInterceptor: Provider[] = environment.mockApi
+    ? [{ provide: HTTP_INTERCEPTORS, useClass: MockApiInterceptor, multi: true }]
+    : [];
 @NgModule({
     declarations: [AppComponent, BaseLayoutComponent],
     imports: [
@@ -28,8 +36,12 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatListModule,
         HttpClientModule,
         MatDialogModule,
+        MatProgressSpinnerModule,
     ],
-    providers: [],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+        ...mockApiInterceptor,
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

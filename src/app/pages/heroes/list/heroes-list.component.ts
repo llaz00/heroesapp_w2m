@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiResponseModel } from '../../../models/api-response.model';
 import { HeroModel } from '../../../models/hero.model';
-import { HeroesService } from '../../../services/heroes.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl } from '@angular/forms';
-import { debounceTime } from 'rxjs';
+import { catchError, debounceTime, throwError } from 'rxjs';
+import { HeroesService } from '../../../repositories/heroes/heroes.service';
 
 @Component({
     selector: 'app-heroes-list',
@@ -35,9 +35,17 @@ export class HeroesListComponent implements OnInit {
     }
 
     getAllHeroes(searchFilter?: string): void {
-        this.heroesService.getAll(searchFilter).subscribe(heroes => {
-            this.heroesList = heroes;
-        });
+        this.heroesService
+            .getAll(searchFilter)
+            .pipe(
+                catchError(err => {
+                    this.snackbar.open('Error al cargar el listado de héroes');
+                    return throwError(err);
+                })
+            )
+            .subscribe(heroes => {
+                this.heroesList = heroes;
+            });
     }
 
     edit(id: number) {
@@ -58,11 +66,19 @@ export class HeroesListComponent implements OnInit {
 
         dialog.afterClosed().subscribe(isDelete => {
             if (isDelete) {
-                this.heroesService.delete(id).subscribe(() => {
-                    this.snackbar.open('Eliminado correctamente');
+                this.heroesService
+                    .delete(id)
+                    .pipe(
+                        catchError(err => {
+                            this.snackbar.open('Error al eliminar');
+                            return throwError(err);
+                        })
+                    )
+                    .subscribe(() => {
+                        this.snackbar.open('Eliminado correctamente');
 
-                    this.getAllHeroes();
-                });
+                        this.getAllHeroes();
+                    });
             }
         });
     }
