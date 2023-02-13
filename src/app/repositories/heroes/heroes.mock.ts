@@ -11,11 +11,11 @@ export default {
 
 const heroesList: HeroModel[] = [
     {
-        id: 1,
+        id: 0,
         name: 'Superman',
     },
     {
-        id: 2,
+        id: 1,
         name: 'Spiderman',
         publisher: 'Marvel',
         genre: 'male',
@@ -159,7 +159,10 @@ function create(object: HeroModel): Observable<HttpResponse<number>> {
 
 function getLastIndex(): number {
     const idList = heroesList.map(hero => hero.id);
-    const maxId = Math.max(...idList);
+    let maxId = -1;
+    if (idList.length) {
+        maxId = Math.max(...idList);
+    }
 
     return maxId + 1;
 }

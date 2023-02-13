@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { delay, Observable } from 'rxjs';
 import { mockEndpoints } from '../repositories/mock.export';
 
 @Injectable()
@@ -8,7 +8,9 @@ export class MockApiInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         const currentMockEndpoint = mockEndpoints[this.extractServiceName(request.url)] || null;
 
-        return currentMockEndpoint ? currentMockEndpoint.handler(request) : next.handle(request);
+        return currentMockEndpoint
+            ? currentMockEndpoint.handler(request).pipe(delay(1000)) // DELAYING TO SEE LOADING INTERCEPTOR
+            : next.handle(request);
     }
 
     private extractServiceName(currentUrl: string): string {

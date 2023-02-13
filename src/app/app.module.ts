@@ -15,6 +15,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { environment } from '../environments/environment';
 import { MockApiInterceptor } from './interceptors/mock-api.interceptor';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const mockApiInterceptor: Provider[] = environment.mockApi
     ? [{ provide: HTTP_INTERCEPTORS, useClass: MockApiInterceptor, multi: true }]
@@ -33,8 +35,12 @@ const mockApiInterceptor: Provider[] = environment.mockApi
         MatListModule,
         HttpClientModule,
         MatDialogModule,
+        MatProgressSpinnerModule,
     ],
-    providers: [...mockApiInterceptor],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+        ...mockApiInterceptor,
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
