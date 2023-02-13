@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiResponseModel } from '../../../models/api-response.model';
 import { HeroModel } from '../../../models/hero.model';
-import { HeroesService } from '../../../services/heroes.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs';
+import { HeroesService } from '../../../repositories/heroes/heroes.service';
 
 @Component({
     selector: 'app-heroes-list',

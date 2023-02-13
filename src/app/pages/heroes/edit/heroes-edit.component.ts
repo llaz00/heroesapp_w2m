@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HeroesService } from '../../../services/heroes.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GenreModel } from '../../../models/genre.model';
+import { HeroesService } from '../../../repositories/heroes/heroes.service';
 
 interface HeroForm {
     id: FormControl<number>;
