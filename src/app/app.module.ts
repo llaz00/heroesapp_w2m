@@ -18,6 +18,7 @@ import { MockApiInterceptor } from './interceptors/mock-api.interceptor';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+// Adds Mock API interceptor only if environment.mockApi is set to true
 const mockApiInterceptor: Provider[] = environment.mockApi
     ? [{ provide: HTTP_INTERCEPTORS, useClass: MockApiInterceptor, multi: true }]
     : [];
