@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GenreModel } from '../../../models/genre.model';
 import { HeroesService } from '../../../repositories/heroes/heroes.service';
+import { catchError, throwError } from 'rxjs';
 
 interface HeroForm {
     id: FormControl<number>;
@@ -46,16 +47,26 @@ export class HeroesEditComponent implements OnInit {
 
                     this.getHeroData(parsedId);
                 } else {
-                    // TODO: Throw error
+                    this.snackbar.open('El héroe solicitado no es correcto');
+                    void this.router.navigateByUrl('/heroes');
                 }
             }
         });
     }
 
     getHeroData(id: number): void {
-        this.heroesService.get(id).subscribe(hero => {
-            this.heroForm.patchValue(hero);
-        });
+        this.heroesService
+            .get(id)
+            .pipe(
+                catchError(err => {
+                    this.snackbar.open('Ha habido un error al cargar el héroe solicitado');
+                    void this.router.navigateByUrl('/heroes');
+                    return throwError(err);
+                })
+            )
+            .subscribe(hero => {
+                this.heroForm.patchValue(hero);
+            });
     }
 
     goBack(): void {
@@ -69,15 +80,29 @@ export class HeroesEditComponent implements OnInit {
             if (this.isEditMode) {
                 this.heroesService
                     .edit(this.heroForm.controls.id.value, this.heroForm.getRawValue())
+                    .pipe(
+                        catchError(err => {
+                            this.snackbar.open('Error al guardar');
+                            return throwError(err);
+                        })
+                    )
                     .subscribe(() => {
                         this.snackbar.open('Editado correctamente');
                         void this.router.navigateByUrl('/heroes');
                     });
             } else {
-                this.heroesService.create(this.heroForm.getRawValue()).subscribe(newId => {
-                    this.snackbar.open('Creado correctamente');
-                    void this.router.navigateByUrl('/heroes');
-                });
+                this.heroesService
+                    .create(this.heroForm.getRawValue())
+                    .pipe(
+                        catchError(err => {
+                            this.snackbar.open('Error al crear');
+                            return throwError(err);
+                        })
+                    )
+                    .subscribe(() => {
+                        this.snackbar.open('Creado correctamente');
+                        void this.router.navigateByUrl('/heroes');
+                    });
             }
         }
     }
